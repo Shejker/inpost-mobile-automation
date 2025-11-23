@@ -11,7 +11,7 @@ Appium-based mobile automation framework for Android testing with Python and pyt
 - Appium Server with uiautomator2 driver
 - Allure Report
 
-**Developed on:** Windows 11 with physical Android device (USB)
+**Developed on:** Windows 11 with Sony Xperia 5 IV XQ-CQ54 (Android 14, USB)
 
 ## Setup
 

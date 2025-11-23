@@ -22,7 +22,10 @@ def android_emulator_driver(request):
     """Android emulator fixture"""
     logger.info("Setting up Android emulator driver")
 
-    app_path = Path(__file__).parent.parent / "builds/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk"
+    app_path = (
+        Path(__file__).parent.parent
+        / "builds/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk"
+    )
 
     options = get_android_emulator_capabilities(str(app_path.absolute()))
 
@@ -38,7 +41,9 @@ def ios_device_driver(request):
 
     app_path = Path(__file__).parent.parent / "builds/SauceLabs-iOS.ipa"
 
-    options = get_ios_capabilities(udid="<your_ios_udid>", app_path=str(app_path.absolute()))
+    options = get_ios_capabilities(
+        udid="<your_ios_udid>", app_path=str(app_path.absolute())
+    )
 
     driver = webdriver.Remote("http://localhost:4723", options=options)
     yield driver

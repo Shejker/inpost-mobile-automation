@@ -27,13 +27,19 @@ class TestiOSExample:
         # XPath: //XCUIElementTypeTextField
         # Predicate: type == "XCUIElementTypeSecureTextField"
 
-        username_field = driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeTextField[@name='username']")
+        username_field = driver.find_element(
+            AppiumBy.XPATH, "//XCUIElementTypeTextField[@name='username']"
+        )
         username_field.send_keys("standard_user")
 
-        password_field = driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeSecureTextField[@name='password']")
+        password_field = driver.find_element(
+            AppiumBy.XPATH, "//XCUIElementTypeSecureTextField[@name='password']"
+        )
         password_field.send_keys("password123")
 
-        login_button = driver.find_element(AppiumBy.XPATH, "//XCUIElementTypeButton[@name='LOGIN']")
+        login_button = driver.find_element(
+            AppiumBy.XPATH, "//XCUIElementTypeButton[@name='LOGIN']"
+        )
         login_button.click()
 
         logger.info("[OK] iOS login successful")

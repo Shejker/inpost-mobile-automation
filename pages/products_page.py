@@ -1,3 +1,9 @@
+from typing import Any
+
+
+from selenium.webdriver.remote.webelement import WebElement
+
+
 import logging
 import random
 from appium.webdriver.common.appiumby import AppiumBy
@@ -7,7 +13,15 @@ logger = logging.getLogger(__name__)
 
 
 class ProductsPage(BasePage):
-    PRODUCTS_TITLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("PRODUCTS")')
+    """Products listing page object model.
+
+    Handles product browsing, filtering, sorting, and adding to cart.
+    """
+
+    PRODUCTS_TITLE = (
+        AppiumBy.ANDROID_UIAUTOMATOR,
+        'new UiSelector().text("PRODUCTS")',
+    )
     PRODUCT_ITEMS = (
         AppiumBy.XPATH,
         '//android.view.ViewGroup[@content-desc="test-Item"]',
@@ -23,13 +37,23 @@ class ProductsPage(BasePage):
     }
 
     def get_random_product(self):
+        """Get random product key from PRODUCTS dictionary.
+
+        Returns:
+            Random product key (e.g., 'backpack', 'bike_light').
+        """
         product_key = random.choice(list(self.PRODUCTS.keys()))
         logger.info(f"Randomly selected product: {product_key}")
         return product_key
 
     def get_all_products(self):
+        """Get all available products by scrolling through list.
+
+        Returns:
+            List of dicts with 'name' and 'price' keys.
+        """
         products = []
-        collected_product_names = set()
+        collected_product_names = set[Any]()
         max_scroll_attempts = 10
         scroll_attempts = 0
 
@@ -38,7 +62,7 @@ class ProductsPage(BasePage):
 
             items_added_this_round = False
 
-            for index, item in enumerate(items):
+            for index, item in enumerate[WebElement](items):
                 try:
                     name_element = item.find_element(
                         AppiumBy.XPATH,
@@ -72,6 +96,17 @@ class ProductsPage(BasePage):
         return products
 
     def add_product_to_cart_by_name(self, product_name):
+        """Add product to cart by name.
+
+        Args:
+            product_name: Exact name of product to add.
+
+        Returns:
+            Dict with product 'name' and 'price'.
+
+        Raises:
+            Exception: If product not found or button not visible.
+        """
         logger.info(f"Adding product: {product_name}")
 
         self.scroll_to_text(product_name)
@@ -140,11 +175,17 @@ class ProductsPage(BasePage):
         return {"name": product_name, "price": price}
 
     def add_random_product_to_cart(self):
+        """Add random product to cart.
+
+        Returns:
+            Dict with product 'name' and 'price'.
+        """
         product_key = self.get_random_product()
         product_name = self.PRODUCTS[product_key]
         return self.add_product_to_cart_by_name(product_name)
 
     def open_filters(self):
+        """Open product filter/sort modal."""
         filter_button = self.find_element(
             (AppiumBy.ACCESSIBILITY_ID, "test-Modal Selector Button")
         )
@@ -152,6 +193,11 @@ class ProductsPage(BasePage):
         logger.info("Filters opened")
 
     def select_filter(self, filter_name):
+        """Select filter option by name.
+
+        Args:
+            filter_name: Filter name (e.g., 'Name (A to Z)', 'Price (low to high)').
+        """
         filter_element = self.driver.find_element(
             AppiumBy.XPATH, f'//android.widget.TextView[@text="{filter_name}"]'
         )
