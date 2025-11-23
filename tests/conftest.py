@@ -28,6 +28,20 @@ from config import settings
 
 @pytest.fixture(scope='function')
 def driver(request):
+    logger = logging.getLogger(__name__)
+    
+    logger.info("=" * 80)
+    logger.info("APPIUM DRIVER SETUP")
+    logger.info("=" * 80)
+    logger.info(f"Appium Server: {settings.APPIUM_SERVER}")
+    logger.info(f"Platform Version: {settings.PLATFORM_VERSION if settings.PLATFORM_VERSION else 'Auto-detected'}")
+    logger.info(f"Device UDID: {settings.UDID if settings.UDID else 'Auto-detected'}")
+    logger.info(f"App Path: {settings.APP_PATH}")
+    logger.info(f"App Package: {settings.APP_PACKAGE}")
+    logger.info(f"App Activity: {settings.APP_ACTIVITY}")
+    logger.info(f"Full Reset: {settings.FULL_RESET}")
+    logger.info("=" * 80)
+    
     app_path = Path(__file__).parent.parent / settings.APP_PATH
     
     test_timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
@@ -41,6 +55,8 @@ def driver(request):
         request.instance.screenshots_dir = screenshots_dir
     
     options = UiAutomator2Options()
+    if settings.PLATFORM_VERSION:
+        options.platform_version = settings.PLATFORM_VERSION
     options.udid = settings.UDID
     options.app = str(app_path.absolute())
     options.full_reset = settings.FULL_RESET

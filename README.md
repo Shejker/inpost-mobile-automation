@@ -39,6 +39,7 @@ For the Sauce Labs mobile sample application, add:
 
 ```
 APPIUM_SERVER=http://localhost:4723
+PLATFORM_VERSION=14
 UDID=<your_device_udid>
 APP_PATH=builds/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk
 APP_PACKAGE=com.swaglabsmobileapp
@@ -47,6 +48,7 @@ FULL_RESET=false
 ```
 
 Where:
+- `PLATFORM_VERSION` - Android version on device (e.g., 14, 13, 12) - optional, auto-detected if not set
 - `UDID` - Get from `adb devices`
 - `APP_PATH` - Path to APK file (relative to project root)
 - `APP_PACKAGE` - Application package name

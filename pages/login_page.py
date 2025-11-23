@@ -49,4 +49,3 @@ class LoginPage(BasePage):
         assert username == 'standard_user', f"Expected 'standard_user', got '{username}'"
         self.click_login()
         logger.info("=== Login completed ===")
-

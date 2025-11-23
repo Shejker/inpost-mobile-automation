@@ -9,6 +9,7 @@ if env_path.exists():
     load_dotenv(env_path)
 
 APPIUM_SERVER = os.getenv('APPIUM_SERVER', 'http://localhost:4723')
+PLATFORM_VERSION = os.getenv('PLATFORM_VERSION')
 UDID = os.getenv('UDID')
 APP_PATH = os.getenv('APP_PATH')
 APP_PACKAGE = os.getenv('APP_PACKAGE')
