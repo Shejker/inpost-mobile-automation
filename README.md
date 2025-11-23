@@ -32,6 +32,8 @@ adb devices
 
 ## Running Tests
 
+### Local
+
 ```bash
 # Start Appium server
 appium
@@ -44,6 +46,24 @@ pytest tests/test_filter_products.py -v -s
 
 # Run with markers
 pytest -m smoke -v
+```
+
+### Docker Compose
+
+```bash
+# Set environment variables
+export UDID=your_device_udid
+export PLATFORM_VERSION=14
+export APP_PATH=builds/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk
+export APP_PACKAGE=com.swaglabsmobileapp
+export APP_ACTIVITY=com.swaglabsmobileapp.MainActivity
+export FULL_RESET=false
+
+# Run tests in containers
+docker-compose up --build
+
+# Or just lint
+docker-compose run tests ruff check .
 ```
 
 ## Generate Reports

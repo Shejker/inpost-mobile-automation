@@ -87,6 +87,7 @@ class TestFilterProducts:
                 True,
             ),
         ],
+        ids=["name_a_to_z", "name_z_to_a", "price_low_to_high", "price_high_to_low"],
     )
     def test_filter_products(self, driver, filter_name, sort_key, reverse):
         logger.info(f"Test: Filter products by {filter_name}")

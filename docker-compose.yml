@@ -1,0 +1,38 @@
+services:
+  appium:
+    image: appium/appium:latest
+    ports:
+      - "4723:4723"
+    environment:
+      - APPIUM_HOST=0.0.0.0
+      - APPIUM_PORT=4723
+    volumes:
+      - ./apps:/app/apps
+      - /dev/bus/usb:/dev/bus/usb
+    privileged: true
+    networks:
+      - automation
+
+  tests:
+    build: .
+    depends_on:
+      - appium
+    environment:
+      - APPIUM_SERVER=http://appium:4723
+      - APP_PATH=${APP_PATH} 
+      - UDID=${UDID}
+      - PLATFORM_VERSION=${PLATFORM_VERSION}
+      - APP_PACKAGE=${APP_PACKAGE}
+      - APP_ACTIVITY=${APP_ACTIVITY}
+      - FULL_RESET=${FULL_RESET}
+    volumes:
+      - ./results:/app/results
+      - ./allure-results:/app/allure-results
+      - ./apps:/app/apps 
+    networks:
+      - automation
+    command: pytest tests/ -v --alluredir=allure-results
+
+networks:
+  automation:
+    driver: bridge
