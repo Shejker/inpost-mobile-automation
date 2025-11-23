@@ -105,3 +105,12 @@ ruff format .
 - `test_filter_products.py` - Filter & sort products
 - `test_form_validation.py` - Form validation
 - `test_e2e_complete_purchase.py` - Complete purchase flow
+
+## Multi-Platform Support
+
+Examples for iOS and emulators are in:
+- `config/capabilities.py` - Device configurations
+- `tests/conftest_examples.py` - Alternative fixtures
+- `tests/test_ios_example.py` - iOS test example
+
+To use iOS/emulator: Copy fixture from `conftest_examples.py` to `conftest.py`
