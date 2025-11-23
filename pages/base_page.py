@@ -24,7 +24,7 @@ class BasePage:
     def find_elements(self, locator):
         try:
             elements = self.wait.until(EC.presence_of_all_elements_located(locator))
-            return elements 
+            return elements
         except TimeoutException:
             logger.error(f"Elements not found: {locator}")
             raise
@@ -52,22 +52,26 @@ class BasePage:
 
     def scroll_to_text(self, text_to_find):
         logger.info(f"Scrolling to text: {text_to_find}")
-        
+
         android_uiautomator = (
-            f'new UiScrollable(new UiSelector().scrollable(true))'
+            f"new UiScrollable(new UiSelector().scrollable(true))"
             f'.scrollIntoView(new UiSelector().text("{text_to_find}"))'
         )
-        
-        element = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, android_uiautomator)
+
+        element = self.driver.find_element(
+            AppiumBy.ANDROID_UIAUTOMATOR, android_uiautomator
+        )
         return element
-    
+
     def scroll_to_accessibility_id(self, accessibility_id):
         logger.info(f"Scrolling to element: {accessibility_id}")
-        
+
         android_uiautomator = (
-            f'new UiScrollable(new UiSelector().scrollable(true))'
+            f"new UiScrollable(new UiSelector().scrollable(true))"
             f'.scrollIntoView(new UiSelector().description("{accessibility_id}"))'
         )
-        
-        element = self.driver.find_element(AppiumBy.ANDROID_UIAUTOMATOR, android_uiautomator)
+
+        element = self.driver.find_element(
+            AppiumBy.ANDROID_UIAUTOMATOR, android_uiautomator
+        )
         return element

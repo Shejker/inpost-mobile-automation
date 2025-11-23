@@ -14,6 +14,8 @@ venv/
 
 # Logs and reports
 results/
+allure-results/
+allure-report/
 
 # IDEs
 .idea/

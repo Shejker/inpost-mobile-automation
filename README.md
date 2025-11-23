@@ -7,106 +7,81 @@ Appium-based mobile automation framework for Android testing with Python and pyt
 - Python 3.12+
 - Node.js 20+
 - Java JDK 17+
-- Android SDK with platform-tools
+- Android SDK
 - Appium Server with uiautomator2 driver
+- Allure Report
+
+**Developed on:** Windows 11 with physical Android device (USB)
 
 ## Setup
 
-### 1. Install Python dependencies
-
 ```bash
+# 1. Install dependencies
 pip install -r requirements.txt
-```
-
-### 2. Install Appium
-
-```bash
 npm install -g appium
 appium driver install uiautomator2
-```
+scoop install allure  # or download from https://github.com/allure-framework/allure2/releases
 
-### 3. Configure environment
-
-Create `.env` file from template:
-
-```bash
+# 2. Configure environment
 cp env.template .env
-```
+# Edit .env with your device UDID and app path
 
-### 4. Update .env for Sauce Labs Demo App
-
-For the Sauce Labs mobile sample application, add:
-
-```
-APPIUM_SERVER=http://localhost:4723
-PLATFORM_VERSION=14
-UDID=<your_device_udid>
-APP_PATH=builds/Android.SauceLabs.Mobile.Sample.app.2.7.1.apk
-APP_PACKAGE=com.swaglabsmobileapp
-APP_ACTIVITY=com.swaglabsmobileapp.MainActivity
-FULL_RESET=false
-```
-
-Where:
-- `PLATFORM_VERSION` - Android version on device (e.g., 14, 13, 12) - optional, auto-detected if not set
-- `UDID` - Get from `adb devices`
-- `APP_PATH` - Path to APK file (relative to project root)
-- `APP_PACKAGE` - Application package name
-- `APP_ACTIVITY` - Main activity to launch
-- `FULL_RESET` - Set to `true` for first run, `false` for faster subsequent runs
-
-### 5. Connect Android device
-
-Enable USB Debugging on your device and connect via USB.
-
-Verify connection:
-
-```bash
+# 3. Connect device
 adb devices
 ```
 
 ## Running Tests
 
-Start Appium server:
-
 ```bash
+# Start Appium server
 appium
-```
 
-Run tests:
-
-```bash
+# Run all tests
 pytest tests/ -v
-```
 
-Run specific test:
+# Run specific test
+pytest tests/test_filter_products.py -v -s
 
-```bash
-pytest tests/test_e2e_complete_flow.py -v -s
-```
-
-Run with markers:
-
-```bash
+# Run with markers
 pytest -m smoke -v
+```
+
+## Generate Reports
+
+```bash
+# Run tests and generate Allure report
+pytest tests/ -v --alluredir=allure-results
+allure generate allure-results -o allure-report --clean
+allure open allure-report
+```
+
+## Code Quality
+
+```bash
+# Check code
+ruff check .
+
+# Fix issues
+ruff check . --fix
+
+# Format code
+ruff format .
 ```
 
 ## Project Structure
 
 ```
-├── config/              # Configuration and settings
-├── pages/               # Page Object Model classes
+├── config/              # Configuration
+├── pages/               # Page Object Model
 ├── tests/               # Test cases
-├── utils/               # Helper functions
+├── utils/               # Helpers
 ├── builds/              # APK files
-├── results/             # Test results
-│   ├── logs/            # Test logs (appium.log)
-│   └── {timestamp}/     # Test run results with screenshots
-└── README.md
+└── results/             # Test results & logs
 ```
 
-## Test Results
+## Tests
 
-After running tests, results are organized in `results/` directory:
-- `results/logs/appium.log` - Appium server logs
-- `results/{timestamp}/screenshots/` - Screenshots from test run (01_*, 02_*, etc.)
+- `test_cart_remove.py` - Remove items from cart
+- `test_filter_products.py` - Filter & sort products
+- `test_form_validation.py` - Form validation
+- `test_e2e_complete_purchase.py` - Complete purchase flow

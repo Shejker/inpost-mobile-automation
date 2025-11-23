@@ -1,0 +1,47 @@
+name: Lint & Test
+
+on:
+  push:
+    branches: [master, main, develop]
+  pull_request:
+    branches: [master, main, develop]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    name: Lint Code
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install ruff
+        run: pip install ruff==0.14.6
+
+      - name: Run ruff check
+        run: ruff check .
+
+      - name: Run ruff format check
+        run: ruff format . --check
+
+  build:
+    runs-on: ubuntu-latest
+    name: Build & Dependencies
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Verify imports
+        run: python -m py_compile tests/*.py pages/*.py utils/*.py config/*.py
