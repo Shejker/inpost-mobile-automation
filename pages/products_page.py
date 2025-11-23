@@ -121,3 +121,13 @@ class ProductsPage(BasePage):
         product_key = self.get_random_product()
         product_name = self.PRODUCTS[product_key]
         return self.add_product_to_cart_by_name(product_name)
+    
+    def open_filters(self):
+        filter_button = self.find_element((AppiumBy.ACCESSIBILITY_ID, "test-Modal Selector Button"))
+        filter_button.click()
+        logger.info("Filters opened")
+    
+    def select_filter(self, filter_name):
+        filter_element = self.driver.find_element(AppiumBy.XPATH, f'//android.widget.TextView[@text="{filter_name}"]')
+        filter_element.click()
+        logger.info(f"Filter '{filter_name}' selected")
