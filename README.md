@@ -8,7 +8,8 @@ Appium-based mobile automation framework for Android testing with Python and pyt
 - Node.js 20+
 - Java JDK 17+
 - Android SDK
-- Appium Server with uiautomator2 driver
+- Appium Server with uiautomator2 driver (Android)
+- Xcode + XCUITest driver (iOS, macOS only)
 - Allure Report
 
 **Developed on:** Windows 11 with Sony Xperia 5 IV XQ-CQ54 (Android 14, USB)
@@ -20,6 +21,7 @@ Appium-based mobile automation framework for Android testing with Python and pyt
 pip install -r requirements.txt
 npm install -g appium
 appium driver install uiautomator2
+appium driver install xcuitest  # For iOS testing
 scoop install allure  # or download from https://github.com/allure-framework/allure2/releases
 
 # 2. Configure environment
