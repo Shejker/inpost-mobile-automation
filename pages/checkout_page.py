@@ -11,7 +11,7 @@ class CheckoutPage(BasePage):
     LAST_NAME_INPUT = (AppiumBy.ACCESSIBILITY_ID, "test-Last Name")
     ZIP_CODE_INPUT = (AppiumBy.ACCESSIBILITY_ID, "test-Zip/Postal Code")
     CONTINUE_BUTTON = (AppiumBy.ACCESSIBILITY_ID, "test-CONTINUE")
-    ERROR_MESSAGE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("is required")')
+    ERROR_MESSAGE = (AppiumBy.ACCESSIBILITY_ID, "test-Error message")
     
     def fill_checkout_information(self, first_name, last_name, zip_code):
         self.send_keys(self.FIRST_NAME_INPUT, first_name)

@@ -11,6 +11,7 @@ class LoginPage(BasePage):
     PASSWORD_INPUT = (AppiumBy.ACCESSIBILITY_ID, "test-Password")
     LOGIN_BUTTON = (AppiumBy.ACCESSIBILITY_ID, "test-LOGIN")
     PRODUCTS_TITLE = (AppiumBy.ANDROID_UIAUTOMATOR, 'new UiSelector().text("PRODUCTS")')
+    ERROR_MESSAGE = (AppiumBy.ACCESSIBILITY_ID, "test-Error message")
     STANDARD_USER_TEXT = 'standard_user'
     
     def scroll_to_standard_user(self):

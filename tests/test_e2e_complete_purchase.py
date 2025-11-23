@@ -73,7 +73,7 @@ class TestCompletePurchaseFlow:
             
             logger.info("  - Selecting and adding random product...")
             product = products_page.add_random_product_to_cart()
-            logger.info(f"  [OK] Added {product['name']} to cart")
+            logger.info(f"  [OK] Added {product['name']} ({product['price']}) to cart")
             take_screenshot(driver, self.screenshots_dir, "04_product_added")
             
             logger.info("\n[STEP 3] Open cart and verify product")
@@ -85,7 +85,7 @@ class TestCompletePurchaseFlow:
             logger.info("  - Verifying product in cart...")
             cart_page = CartPage(driver)
             cart_page.verify_product_in_cart(product['name'], product['price'])
-            logger.info(f"  [OK] Product {product['name']} verified in cart")
+            logger.info(f"  [OK] Product {product['name']} ({product['price']}) verified in cart")
             take_screenshot(driver, self.screenshots_dir, "05_cart_opened")
             
             logger.info("  - Clicking CHECKOUT...")
@@ -116,7 +116,7 @@ class TestCompletePurchaseFlow:
             
             logger.info(f"  - Verifying product in overview: {product['name']}")
             checkout_overview_page.verify_product_in_overview(product['name'], product['price'])
-            logger.info(f"  [OK] Product '{product['name']}' confirmed in overview")
+            logger.info(f"  [OK] Product '{product['name']}' ({product['price']}) confirmed in overview")
             take_screenshot(driver, self.screenshots_dir, "08_checkout_overview")
             
             logger.info("  - Clicking FINISH to complete purchase...")

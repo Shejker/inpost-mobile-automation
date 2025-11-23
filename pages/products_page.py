@@ -67,21 +67,54 @@ class ProductsPage(BasePage):
         logger.info(f"Adding product: {product_name}")
         
         self.scroll_to_text(product_name)
+        logger.info(f"Scrolled to {product_name}")
         
-        xpath = f'//android.view.ViewGroup[@content-desc="test-Item"][.//android.widget.TextView[@text="{product_name}"]]'
-        product_item = self.find_element((AppiumBy.XPATH, xpath))
+        all_products = self.find_elements(self.PRODUCT_ITEMS)
+        product_index = None
         
+        for index, product in enumerate(all_products, start=1):
+            try:
+                name_element = product.find_element(AppiumBy.XPATH, './/android.widget.TextView[@content-desc="test-Item title"]')
+                if name_element.text == product_name:
+                    product_index = index
+                    logger.info(f"Found {product_name} at index {product_index}")
+                    break
+            except Exception:
+                continue
+        
+        if product_index is None:
+            raise Exception(f"Could not find product {product_name} in visible items")
+        
+        max_swipe_attempts = 5
         price = None
-        try:
-            price_element = product_item.find_element(AppiumBy.XPATH, './/android.widget.TextView[@content-desc="test-Price"]')
-            price = price_element.text
-        except Exception as e:
-            logger.debug(f"Could not get price: {e}")
+        add_to_cart_button = None
         
-        button_xpath = f'{xpath}//*[@content-desc="test-ADD TO CART"]'
-        add_to_cart_button = self.driver.find_element(AppiumBy.XPATH, button_xpath)
+        price_xpath = f'(//android.view.ViewGroup[@content-desc="test-Item"])[{product_index}]//android.widget.TextView[@content-desc="test-Price"]'
+        add_to_cart_xpath = f'(//android.widget.TextView[@text="ADD TO CART"])[{product_index}]'
+        
+        for attempt in range(max_swipe_attempts):
+            try:
+                from selenium.webdriver.support.ui import WebDriverWait
+                wait_short = WebDriverWait(self.driver, 2)
+                
+                price_element = wait_short.until(lambda d: d.find_element(AppiumBy.XPATH, price_xpath))
+                price = price_element.text
+                logger.info(f"Price: {price}")
+                
+                add_to_cart_button = wait_short.until(lambda d: d.find_element(AppiumBy.XPATH, add_to_cart_xpath))
+                logger.info("ADD TO CART button found and visible")
+                break
+            except Exception:
+                if attempt < max_swipe_attempts - 1:
+                    logger.info(f"Price or button not visible, attempt {attempt + 1}")
+                    self.driver.swipe(start_x=500, start_y=700, end_x=500, end_y=300, duration=500)
+                else:
+                    raise Exception(f"Could not find price or button for {product_name}")
+        
         add_to_cart_button.click()
+        logger.info(f"Clicked ADD TO CART for {product_name}")
         
+        logger.info(f"Successfully added {product_name} ({price}) to cart")
         return {'name': product_name, 'price': price}
     
     def add_random_product_to_cart(self):
